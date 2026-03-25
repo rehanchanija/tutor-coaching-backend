@@ -1,0 +1,48 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test
+/coverage
+/.nyc_output
+
+# Build
+/dist
+/build
+
+# Misc
+.DS_Store
+.env
+Session.vim
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+Network Trash Folder
+Temporary Items
+.Spotlight-V100
+.Trashes
+config.json
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
