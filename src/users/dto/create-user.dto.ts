@@ -25,4 +25,14 @@ export class CreateUserDto {
   @IsMongoId()
   @IsOptional()
   batchId?: string;
+
+  @ApiProperty({ example: '+91 99999 00000', description: 'The phone number of the user' })
+  @IsNotEmpty()
+  @IsString()
+  phone: string;
+
+  @ApiProperty({ example: '123, Gandhi Nagar, Delhi', description: 'The address of the user' })
+  @IsNotEmpty()
+  @IsString()
+  address: string;
 }

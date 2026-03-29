@@ -10,6 +10,12 @@ export class Batch {
 
   @Prop({ required: true, enum: ['morning', 'evening'] })
   type: string;
+
+  @Prop({ required: true })
+  startDate: Date;
+
+  @Prop({ required: true })
+  completionDate: Date;
 }
 
 export const BatchSchema = SchemaFactory.createForClass(Batch);

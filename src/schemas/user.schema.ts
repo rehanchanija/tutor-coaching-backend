@@ -20,6 +20,12 @@ export class User {
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Batch', required: false })
   batchId?: Batch;
+
+  @Prop({ required: true })
+  phone: string;
+
+  @Prop({ required: true })
+  address: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

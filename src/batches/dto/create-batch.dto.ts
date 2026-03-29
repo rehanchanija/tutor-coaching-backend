@@ -8,4 +8,12 @@ export class CreateBatchDto {
   @IsNotEmpty()
   @IsEnum(['morning', 'evening'])
   type: string;
+
+  @IsNotEmpty()
+  @IsString()
+  startDate: string;
+
+  @IsNotEmpty()
+  @IsString()
+  completionDate: string;
 }
