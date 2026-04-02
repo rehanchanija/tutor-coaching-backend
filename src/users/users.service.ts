@@ -14,12 +14,21 @@ export class UsersService {
 
   async create(userData: any): Promise<UserDocument> {
     console.log('[UsersService] Creating user with data:', userData);
-    const { email, password } = userData;
-    const existingUser = await this.userModel.findOne({ email });
-    if (existingUser) {
-      console.log('[UsersService] Conflict: Email already exists:', email);
-      throw new ConflictException('Email already exists');
+    const { email, phone, password } = userData;
+    
+    // Check Email unique if provided
+    if (email) {
+      const existingEmail = await this.userModel.findOne({ email });
+      if (existingEmail) throw new ConflictException('Email already exists');
     }
+
+    // Check Phone unique
+    const existingPhone = await this.userModel.findOne({ phone });
+    if (existingPhone) {
+      console.log('[UsersService] Conflict: Phone already exists:', phone);
+      throw new ConflictException('Phone number already registered');
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new this.userModel({
       ...userData,
@@ -44,6 +53,14 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
     return user;
+  }
+
+  async findByEmailOrPhone(identifier: string): Promise<UserDocument | null> {
+    return this.userModel
+      .findOne({
+        $or: [{ email: identifier }, { phone: identifier }],
+      })
+      .exec();
   }
 
   async findByEmail(email: string): Promise<UserDocument | null> {

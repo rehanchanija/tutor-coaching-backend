@@ -39,7 +39,9 @@ export class SubjectsService {
         );
         const total = courses.length;
         const completed = courses.filter((c) => (c as any).progress === 100).length;
-        const progress = total > 0 ? (completed / total) * 100 : 0;
+        
+        // Calculate true percentage instead of rigid completion
+        const progress = await this.coursesService.getSubjectProgress((subject as any)._id.toString());
 
         return {
           ...subject.toObject(),

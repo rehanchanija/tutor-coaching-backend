@@ -21,7 +21,7 @@ export class User {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Batch', required: false })
   batchId?: Batch;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   phone: string;
 
   @Prop({ required: true })
