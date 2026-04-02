@@ -27,6 +27,11 @@ export class CoursesController {
     return this.coursesService.create(createDto);
   }
 
+  @Get()
+  async findAll() {
+    return this.coursesService.findAll();
+  }
+
   @Patch(':id')
   @Roles('admin')
   async updateProgress(

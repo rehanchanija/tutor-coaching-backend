@@ -19,6 +19,11 @@ export class SubjectsController {
     return this.subjectsService.create(createDto);
   }
 
+  @Get()
+  async findAll() {
+    return this.subjectsService.findAll();
+  }
+
   @Get(':batchId')
   async findAllByBatch(@Param('batchId') batchId: string, @Req() req: any) {
     // For student, check if it's their batch

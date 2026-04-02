@@ -13,9 +13,11 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(userData: any): Promise<UserDocument> {
+    console.log('[UsersService] Creating user with data:', userData);
     const { email, password } = userData;
     const existingUser = await this.userModel.findOne({ email });
     if (existingUser) {
+      console.log('[UsersService] Conflict: Email already exists:', email);
       throw new ConflictException('Email already exists');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,7 +25,9 @@ export class UsersService {
       ...userData,
       password: hashedPassword,
     });
-    return user.save();
+    const result = await user.save();
+    console.log('[UsersService] User created successfully:', result._id);
+    return result;
   }
 
   async findAll(): Promise<UserDocument[]> {

@@ -13,6 +13,10 @@ export class CoursesService {
     return course.save();
   }
 
+  async findAll(): Promise<CourseDocument[]> {
+    return this.courseModel.find().exec();
+  }
+
   async findAllBySubject(subjectId: string): Promise<CourseDocument[]> {
     return this.courseModel.find({ subjectId: subjectId as any }).exec();
   }

@@ -17,17 +17,34 @@ export class SubjectsService {
     return subject.save();
   }
 
+  async findAll(): Promise<any[]> {
+    const subjects = await this.subjectModel.find().exec();
+    return this.addProgressToSubjects(subjects);
+  }
+
   async findAllByBatch(batchId: string): Promise<any[]> {
+    console.log(`[SubjectsService] Finding subjects for batchId: ${batchId}`);
     const subjects = await this.subjectModel
       .find({ batchId: batchId as any })
       .exec();
+    console.log(`[SubjectsService] Found ${subjects.length} subjects in DB`);
+    return this.addProgressToSubjects(subjects);
+  }
+
+  private async addProgressToSubjects(subjects: SubjectDocument[]): Promise<any[]> {
     const subjectsWithProgress = await Promise.all(
       subjects.map(async (subject) => {
-        const progress = await this.coursesService.getSubjectProgress(
+        const courses = await this.coursesService.findAllBySubject(
           (subject as any)._id.toString(),
         );
+        const total = courses.length;
+        const completed = courses.filter((c) => (c as any).progress === 100).length;
+        const progress = total > 0 ? (completed / total) * 100 : 0;
+
         return {
           ...subject.toObject(),
+          totalChapters: total,
+          completedChapters: completed,
           progress,
         };
       }),
